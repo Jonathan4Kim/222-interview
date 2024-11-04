@@ -5,16 +5,11 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 # Sample route that returns JSON data dynamically
-@app.route('/api/data/<string:item_id>', methods=['GET'])
-def get_data(item_id):
-    # Mock data - you could dynamically pull from a database or an external API here
-    data = {
-        "item_id": item_id,
-        "name": f"Item {item_id}",
-        "description": "This is a dynamically generated item.",
-        "price": 10.99
-    }
-    return jsonify(data)
+@app.route('/api/data/<dynamic_part>')
+def get_data(dynamic_part):
+    # Process the dynamic part
+    result = f"Data fornn {dynamic_part}"
+    return jsonify(result)
 
 
 # Another sample route for POSTing data
