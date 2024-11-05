@@ -16,7 +16,7 @@ inner_list = data[0]['members']
 temp = {}
 
 for member in inner_list:
-    temp[member['name']] = member
+    temp[member['name'].lower()] = member
 data = temp
 
 
@@ -25,7 +25,7 @@ data = temp
 def get_data(first_name, last_name):
     # Process the dynamic part
     name = first_name + " " + last_name
-    return jsonify(data[name])
+    return jsonify(data[name.lower()])
 
 
 # Another sample route for POSTing data

@@ -3,7 +3,6 @@ import axios from 'axios';
 import {useParams} from 'react-router-dom';
 import './styles.css';
 
-
 const TraitsCarousel = ({traits}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -11,49 +10,79 @@ const TraitsCarousel = ({traits}) => {
     if (!traits || traits.length === 0) {
         return <div>No traits available</div>;
     }
-    const next = () => {
-        currentIndex === traits.length - 1 ? setCurrentIndex(0) : setCurrentIndex(currentIndex + 1);
-    }
-    ;
-    const prev = () => {
-        currentIndex === 0 ? setCurrentIndex(traits.length - 1)  : setCurrentIndex(currentIndex - 1);
+
+    const move = (index) => {
+        setCurrentIndex(index);
     };
     return (<>
-    <div>
-        <button onClick={prev}>Prev</button>
+    <div className='carousel-container'>
         <p>Only <strong>{traits[currentIndex].percentage}%</strong> of</p>
         <p>222 members chose</p>
         <p><strong>{traits[currentIndex].is_scale ? `${traits[currentIndex].answer} / ${traits[currentIndex].max_val}` : traits[currentIndex].answer}</strong></p>
         <p>when asked about</p>
         <p><strong>{traits[currentIndex].question}</strong></p>
-        <button onClick={next}>Next</button>
+        <div className='carousel-button-container'>
+            {traits.map((traits, index) => (
+                <button className='index-button' onClick={() => move(index)}></button>
+            ))}
+        </div>
+
     </div>
     </>)
 }
 
-const ImagesCarousel = ({images}) => {
+const ImagesCarousel = ({ images }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    // Check if images is available and has items
     if (!images || images.length === 0) {
         return <div>No images available</div>;
     }
 
-    const next = () => {
-        currentIndex === images.length - 1 ? setCurrentIndex(0) : setCurrentIndex(currentIndex + 1);
-    }
-    ;
-    const prev = () => {
-        currentIndex === 0 ? setCurrentIndex(images.length - 1)  : setCurrentIndex(currentIndex - 1);
+    const getRandomImages = (images) => {
+        const shuffled = [...images].sort(() => Math.random() - 0.5); 
+        return shuffled.slice(0, 9); 
     };
-    return (<>
-    <div>
-        <button onClick={prev}>Prev</button>
-        <img src={images[currentIndex]} width={400} height={400}></img>
-        <button onClick={next}>Next</button>
-    </div>
-    </>)
-}
+
+    const selectedImages = getRandomImages(images); 
+
+    const next = () => {
+        currentIndex === selectedImages.length - 1
+            ? setCurrentIndex(0)
+            : setCurrentIndex(currentIndex + 1);
+    };
+
+    const prev = () => {
+        currentIndex === 0
+            ? setCurrentIndex(selectedImages.length - 1)
+            : setCurrentIndex(currentIndex - 1);
+    };
+
+    const move = (index) => {
+        setCurrentIndex(index);
+    };
+
+    return (
+        <>
+            <div className='carousel-container'>
+                <img
+                    src={selectedImages[currentIndex]}
+                    width={400}
+                    height={400}
+                    alt="carousel"
+                />
+                <div className='carousel-button-container'>
+                    {selectedImages.map((image, index) => (
+                        <button
+                            className={`index-button ${currentIndex === index ? 'active' : ''}`}
+                            onClick={() => move(index)}
+                            key={index}
+                        ></button>
+                    ))}
+                </div>
+            </div>
+        </>
+    );
+};
 
 
 
