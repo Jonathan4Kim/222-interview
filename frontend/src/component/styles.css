@@ -1,0 +1,16 @@
+* {
+    color: white;
+    background-color: #384434;
+    max-width: 400;
+    max-height: 400;
+}
+
+div.overall_container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.p.strong {
+    font-size: larger;
+}
